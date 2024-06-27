@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "workout-api2"
+version = "0.1.0"
+description = ""
+authors = [" Marcelo Pezzotti <mcl_etec@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+sqlalchemy = "^2.0.31"
+pydantic = "^2.7.4"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.10"
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+taskipy = "^1.13.0"
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = '-p no:warnings'
+
+[tool.ruff]
+line-length = 79
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
+
+[tool.taskipy.tasks]
+run = 'fastapi dev workout_api2/app.py'
+pre_test = 'task lint'
+test = 'pytest --cov=workout_api2 -vv'
+post_test = 'coverage html'
+
+lint = 'ruff check . && ruff check . --diff'
+format = 'ruff check . --fix && ruff format .'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
